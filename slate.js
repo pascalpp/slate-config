@@ -17,7 +17,6 @@ slate.eachScreen(screen => {
     }
   })
 })
-log(SCREENS)
 
 var relaunch = slate.operation('relaunch')
 slate.bind('pad0:ctrl,alt,shift', relaunch)
@@ -293,6 +292,14 @@ function defaultWindowSizeForBigScreen(move, name, screen) {
         screen,
       })
       break
+    case 'Terminal':
+      move = move.dup({
+        width: 'screenSizeX*4/10',
+        height: 'screenSizeY*5/10',
+        y: 'screenOriginY+screenSizeY*5/10',
+        screen,
+      })
+      break
     default:
       move = move.dup({
         width: 'screenSizeX*5/10',
@@ -309,7 +316,7 @@ function isBigScreen(screen) {
 }
 
 function log(...args) {
-  var msg = args.map(formatArg)
+  var msg = args.map(formatArg).join(' ')
   slate.log('slatelog', msg)
 }
 
