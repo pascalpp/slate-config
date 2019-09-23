@@ -269,9 +269,12 @@ function getNextScreen(screen) {
 function defaultWindowSize(win, screen) {
   screen = screen || win.screen()
   var rect = screen.rect()
+  var name = win.app().name()
   let move = slate.operation('move', rect, screen)
   if (isBigScreen(screen)) {
-    move = defaultWindowSizeForBigScreen(move, win.app().name(), screen)
+    move = defaultWindowSizeForBigScreen({ move, name, screen })
+  } else {
+    move = defaultWindowSizeForSmallScreen({ move, name, screen })
   }
   win.doOperation(move)
 }
@@ -283,12 +286,42 @@ function moveToOtherScreen(win) {
 }
 slate.bind('pad2:ctrl,alt', moveToOtherScreen)
 
-function defaultWindowSizeForBigScreen(move, name, screen) {
+function defaultWindowSizeForBigScreen({ move, name, screen }) {
   switch (name) {
     case 'Code':
       move = move.dup({
         width: 'screenSizeX*7/10',
         x: 'screenOriginX+screenSizeX-screenSizeX*7/10',
+        screen,
+      })
+      break
+    case 'Messages':
+      move = move.dup({
+        width: 'screenSizeX*4/10-100',
+        height: 'screenSizeY*6/10',
+        x: 'screenOriginX+screenSizeX-screenSizeX*4/10',
+        screen,
+      })
+      break
+    case 'iTunes':
+      move = move.dup({
+        width: '400',
+        screen,
+      })
+      break
+    case 'Slack':
+      move = move.dup({
+        width: 'screenSizeX*5/10-100',
+        height: 'screenSizeY*7/10',
+        x: 'screenOriginX+screenSizeX-screenSizeX*5/10',
+        screen,
+      })
+      break
+    case 'Slither':
+      move = move.dup({
+        width: 'screenSizeY+100',
+        height: 'screenSizeY',
+        x: 'screenOriginX+screenSizeX/2-screenSizeY/2-50',
         screen,
       })
       break
@@ -301,9 +334,22 @@ function defaultWindowSizeForBigScreen(move, name, screen) {
       })
       break
     default:
+      log('No default size for', name)
       move = move.dup({
         width: 'screenSizeX*5/10',
         height: 'screenSizeY*8/10',
+        screen,
+      })
+      break
+  }
+  return move
+}
+
+function defaultWindowSizeForSmallScreen({ move, name, screen }) {
+  switch (name) {
+    case 'iTunes':
+      move = move.dup({
+        width: '400',
         screen,
       })
       break
