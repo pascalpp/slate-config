@@ -5,17 +5,12 @@ chokidar slate.js -c 'killall Slate || true && open /Applications/Slate.app'
 
 log('==== loaded ==========================================================')
 
-var SMALLSCREEN = { width: 1680, height: 1050 }
-var BIGSCREEN = { width: 2560, height: 1440 }
-var SCREENS = [SMALLSCREEN, BIGSCREEN]
+var sizes = [];
 
 slate.eachScreen(screen => {
   var rect = screen.rect()
-  SCREENS.forEach(S => {
-    if (rect.width === S.width && rect.height === S.height) {
-      S.id = screen.id()
-    }
-  })
+  sizes.push(rect.width)
+  sizes.sort((a,b) => b - a)
 })
 
 var relaunch = slate.operation('relaunch')
@@ -269,12 +264,11 @@ function getNextScreen(screen) {
 function defaultWindowSize(win, screen) {
   screen = screen || win.screen()
   var rect = screen.rect()
-  var name = win.app().name()
   let move = slate.operation('move', rect, screen)
   if (isBigScreen(screen)) {
-    move = defaultWindowSizeForBigScreen({ move, name, screen })
+    move = defaultWindowSizeForBigScreen({ move, win, screen })
   } else {
-    move = defaultWindowSizeForSmallScreen({ move, name, screen })
+    move = defaultWindowSizeForSmallScreen({ move, win, screen })
   }
   win.doOperation(move)
 }
@@ -284,14 +278,25 @@ function moveToOtherScreen(win) {
   var screen = getNextScreen(win.screen())
   defaultWindowSize(win, screen)
 }
+slate.bind('2:ctrl,alt', moveToOtherScreen)
 slate.bind('pad2:ctrl,alt', moveToOtherScreen)
 
-function defaultWindowSizeForBigScreen({ move, name, screen }) {
-  switch (name) {
+function defaultWindowSizeForBigScreen({ move, win, screen }) {
+  var appName = win.app().name()
+  switch (appName) {
     case 'Code':
       move = move.dup({
         width: 'screenSizeX*7/10',
         x: 'screenOriginX+screenSizeX-screenSizeX*7/10',
+        screen,
+      })
+      break
+    case 'GitHub Desktop':
+      move = move.dup({
+        width: 'screenSizeX*5/10-100',
+        height: 'screenSizeY*7/10',
+        x: 'screenOriginX+screenSizeX-screenSizeX*5/10',
+        y: '80',
         screen,
       })
       break
@@ -312,7 +317,7 @@ function defaultWindowSizeForBigScreen({ move, name, screen }) {
     case 'Slack':
       move = move.dup({
         width: 'screenSizeX*5/10-100',
-        height: 'screenSizeY*7/10',
+        height: 'screenSizeY*9/10',
         x: 'screenOriginX+screenSizeX-screenSizeX*5/10',
         screen,
       })
@@ -333,6 +338,14 @@ function defaultWindowSizeForBigScreen({ move, name, screen }) {
         screen,
       })
       break
+    case 'Tweetbot':
+      move = move.dup({
+        width: '500',
+        height: 'screenSizeY',
+        x: 'screenOriginX+screenSizeX-500',
+        screen,
+      })
+      break
     default:
       log('No default size for', name)
       move = move.dup({
@@ -345,11 +358,28 @@ function defaultWindowSizeForBigScreen({ move, name, screen }) {
   return move
 }
 
-function defaultWindowSizeForSmallScreen({ move, name, screen }) {
-  switch (name) {
+function defaultWindowSizeForSmallScreen({ move, win, screen }) {
+  var appName = win.app().name()
+  switch (appName) {
     case 'iTunes':
       move = move.dup({
         width: '400',
+        screen,
+      })
+      break
+    case 'Slither':
+      move = move.dup({
+        width: 'screenSizeY+100',
+        height: 'screenSizeY',
+        x: 'screenOriginX+screenSizeX/2-screenSizeY/2-50',
+        screen,
+      })
+      break
+    case 'Tweetbot':
+      move = move.dup({
+        width: '500',
+        height: 'screenSizeY',
+        x: 'screenOriginX+screenSizeX-500',
         screen,
       })
       break
@@ -358,7 +388,7 @@ function defaultWindowSizeForSmallScreen({ move, name, screen }) {
 }
 
 function isBigScreen(screen) {
-  return screen.id() === BIGSCREEN.id
+  return screen.rect().width === sizes[0]
 }
 
 function log(...args) {
