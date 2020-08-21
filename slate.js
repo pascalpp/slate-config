@@ -308,9 +308,9 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
         screen,
       })
       break
-    case 'iTunes':
+    case 'Music':
       move = move.dup({
-        width: '400',
+        width: '500',
         screen,
       })
       break
@@ -361,7 +361,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
 function defaultWindowSizeForSmallScreen({ move, win, screen }) {
   var appName = win.app().name()
   switch (appName) {
-    case 'iTunes':
+    case 'Music':
       move = move.dup({
         width: '400',
         screen,
