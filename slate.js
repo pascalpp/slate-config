@@ -262,7 +262,8 @@ function getNextScreen(screen) {
 }
 
 function defaultWindowSize(win, screen) {
-  screen = screen || win.screen()
+  screen = screen || win && win.screen()
+  if (!screen) return
   var rect = screen.rect()
   let move = slate.operation('move', rect, screen)
   if (isBigScreen(screen)) {
@@ -282,7 +283,9 @@ slate.bind('2:ctrl,alt', moveToOtherScreen)
 slate.bind('pad2:ctrl,alt', moveToOtherScreen)
 
 function defaultWindowSizeForBigScreen({ move, win, screen }) {
+  if (!win) return
   var appName = win.app().name()
+  var title = win.title()
   switch (appName) {
     case 'Code':
       move = move.dup({
@@ -299,6 +302,22 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
         y: '80',
         screen,
       })
+      break
+    case 'Google Chrome':
+      if (title.includes('DevTools')) {
+        move = move.dup({
+          width: 'screenSizeX*5/10',
+          height: 'screenSizeY*7/10',
+          y: 'screenOriginY+screenSizeY-screenSizeY*7/10',
+          screen,
+        })
+      } else {
+        move = move.dup({
+          width: 'screenSizeX*5/10',
+          height: 'screenSizeY*8/10',
+          screen,
+        })
+      }
       break
     case 'Messages':
       move = move.dup({
