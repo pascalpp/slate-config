@@ -319,6 +319,14 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
         })
       }
       break
+    case 'Mail':
+      move = move.dup({
+        width: 'screenSizeX*8/10-100',
+        height: 'screenSizeY*9/10',
+        x: 'screenOriginX+screenSizeX-screenSizeX*8/10',
+        screen,
+      })
+      break
     case 'Messages':
       move = move.dup({
         width: 'screenSizeX*4/10-100',

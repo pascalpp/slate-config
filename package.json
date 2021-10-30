@@ -5,15 +5,15 @@
   "main": ".slate.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "chokidar slate.js --initial -c 'killall Slate || true && open /Applications/Slate.app'"
+    "dev": "yarn chokidar slate.js --initial -c 'killall Slate || true && open /Applications/Slate.app'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "chokidar-cli": "^3.0.0",
     "eslint": "^6.4.0",
-    "prettier": "^1.18.2",
-    "chokidar": "^3.1.1"
+    "prettier": "^1.18.2"
   },
   "dependencies": {}
 }
