@@ -342,6 +342,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
       })
       break
     case 'Slack':
+    case 'Discord':
       move = move.dup({
         width: 'screenSizeX*5/10-100',
         height: 'screenSizeY*9/10',
