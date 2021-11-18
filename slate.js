@@ -1,7 +1,9 @@
 /*
-ln -s ~/Projects/slate-config/slate.js ~/.slate.js
-chokidar slate.js -c 'killall Slate || true && open /Applications/Slate.app'
+yarn link
+yarn dev
 */
+
+// keystrokes https://github.com/jigish/slate/wiki/Keystrokes#allowed-keys
 
 log('==== loaded ==========================================================')
 
@@ -206,6 +208,38 @@ slate.bind('pad4:ctrl', sizeBottom)
 slate.bind('7:ctrl', sizeTop)
 slate.bind('4:ctrl', sizeBottom)
 
+var taller = slate.operation('move', {
+  x: 'windowTopLeftX',
+  y: 'windowTopLeftY',
+  width: 'windowSizeX',
+  height: 'windowSizeY+20',
+})
+slate.bind('down:ctrl', taller)
+
+var shorter = slate.operation('move', {
+  x: 'windowTopLeftX',
+  y: 'windowTopLeftY',
+  width: 'windowSizeX',
+  height: 'windowSizeY-20',
+})
+slate.bind('up:ctrl', shorter)
+
+var wider = slate.operation('move', {
+  x: 'windowTopLeftX',
+  y: 'windowTopLeftY',
+  width: 'windowSizeX+20',
+  height: 'windowSizeY',
+})
+slate.bind('right:ctrl', wider)
+
+var narrower = slate.operation('move', {
+  x: 'windowTopLeftX',
+  y: 'windowTopLeftY',
+  width: 'windowSizeX-20',
+  height: 'windowSizeY',
+})
+slate.bind('left:ctrl', narrower)
+
 var onethird = function(win) {
   if (!win) return
   var w = win.rect()
@@ -335,12 +369,14 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
         screen,
       })
       break
-    case 'Music':
+    case 'Music': {
+      const width = title === "MiniPlayer" ? '500' : 'screenSizeX*7/10'
       move = move.dup({
-        width: '500',
+        width,
         screen,
       })
       break
+    }
     case 'Slack':
     case 'Discord':
       move = move.dup({

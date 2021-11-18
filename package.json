@@ -5,7 +5,10 @@
   "main": ".slate.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "yarn chokidar slate.js --initial -c 'killall Slate || true && open /Applications/Slate.app'"
+    "link": "ln -s ./slate.js ~/.slate.js",
+    "edit": "code . && code slate.js",
+    "watch": "yarn chokidar slate.js --initial -c 'killall Slate || true && open /Applications/Slate.app'",
+    "dev": "yarn edit && yarn watch"
   },
   "keywords": [],
   "author": "",
