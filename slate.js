@@ -214,7 +214,7 @@ var taller = slate.operation('move', {
   width: 'windowSizeX',
   height: 'windowSizeY+20',
 })
-slate.bind('down:ctrl', taller)
+slate.bind('down:ctrl,alt', taller)
 
 var shorter = slate.operation('move', {
   x: 'windowTopLeftX',
@@ -222,7 +222,7 @@ var shorter = slate.operation('move', {
   width: 'windowSizeX',
   height: 'windowSizeY-20',
 })
-slate.bind('up:ctrl', shorter)
+slate.bind('up:ctrl,alt', shorter)
 
 var wider = slate.operation('move', {
   x: 'windowTopLeftX',
@@ -230,7 +230,7 @@ var wider = slate.operation('move', {
   width: 'windowSizeX+20',
   height: 'windowSizeY',
 })
-slate.bind('right:ctrl', wider)
+slate.bind('right:ctrl,alt', wider)
 
 var narrower = slate.operation('move', {
   x: 'windowTopLeftX',
@@ -238,7 +238,7 @@ var narrower = slate.operation('move', {
   width: 'windowSizeX-20',
   height: 'windowSizeY',
 })
-slate.bind('left:ctrl', narrower)
+slate.bind('left:ctrl,alt', narrower)
 
 var onethird = function(win) {
   if (!win) return
@@ -377,6 +377,22 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
       })
       break
     }
+    case 'Safari':
+      if (title.includes('Web Inspector')) {
+        move = move.dup({
+          width: 'screenSizeX*5/10',
+          height: 'screenSizeY*7/10',
+          y: 'screenOriginY+screenSizeY-screenSizeY*7/10',
+          screen,
+        })
+      } else {
+        move = move.dup({
+          width: 'screenSizeX*5/10',
+          height: 'screenSizeY*8/10',
+          screen,
+        })
+      }
+      break
     case 'Slack':
     case 'Discord':
       move = move.dup({
