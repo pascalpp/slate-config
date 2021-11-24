@@ -5,6 +5,7 @@
   "main": ".slate.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "cd /Applications && curl http://www.ninjamonkeysoftware.com/slate/versions/slate-latest.tar.gz | tar -xz; cd -",
     "link": "ln -s ./slate.js ~/.slate.js",
     "edit": "code . && code slate.js",
     "watch": "yarn chokidar slate.js --initial -c 'killall Slate || true && open /Applications/Slate.app'",
