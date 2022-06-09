@@ -15,9 +15,9 @@ slate.eachScreen(screen => {
   sizes.sort((a,b) => b - a)
 })
 
-var relaunch = slate.operation('relaunch')
-slate.bind('pad0:ctrl,alt,shift', relaunch)
-slate.bind('0:ctrl,alt,shift', relaunch)
+// var relaunch = slate.operation('relaunch')
+// slate.bind('pad0:ctrl,alt,shift', relaunch)
+// slate.bind('0:ctrl,alt,shift', relaunch)
 
 var xPercent30 = 'screenSizeX*3/10'
 var xPercent40 = 'screenSizeX*4/10'
@@ -289,9 +289,8 @@ var twothirds = function(win) {
 slate.bind('pad3:cmd', twothirds)
 
 function getNextScreen(screen) {
-  // let id = screen.id() + 1
-  // if (id >= slate.screenCount()) id = 0
-  let id = 1 - screen.id()
+  let id = screen.id() + 1
+  if (id >= slate.screenCount()) id = 0
   return slate.screenForRef(id)
 }
 
@@ -468,7 +467,7 @@ function defaultWindowSizeForSmallScreen({ move, win, screen }) {
 }
 
 function isBigScreen(screen) {
-  return screen.rect().width === sizes[0]
+  return sizes.length > 1 && screen.rect().width === sizes[0]
 }
 
 function log(...args) {
