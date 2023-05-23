@@ -7,6 +7,11 @@ yarn dev
 
 log('==== loaded ==========================================================')
 
+// to view logs:
+// Open Console.app
+// Start log streaming
+// filter for message: slatelog
+
 var sizes = [];
 
 slate.eachScreen(screen => {
@@ -26,6 +31,7 @@ var xPercent60 = 'screenSizeX*6/10'
 var xPercent70 = 'screenSizeX*7/10'
 var xPercent80 = 'screenSizeX*8/10'
 var xPercent90 = 'screenSizeX*9/10'
+var xPercent95 = 'screenSizeX*95/100'
 var xPercent100 = 'screenSizeX'
 
 var yPercent30 = 'screenSizeY*3/10'
@@ -57,7 +63,6 @@ var leftWidth50 = leftWidth.dup({ width: xPercent50 })
 var leftWidth60 = leftWidth.dup({ width: xPercent60 })
 var leftWidth70 = leftWidth.dup({ width: xPercent70 })
 var leftWidth80 = leftWidth.dup({ width: xPercent80 })
-// eslint-disable-next-line no-unused-vars
 var leftWidth90 = leftWidth.dup({ width: xPercent90 })
 var leftWidth100 = leftWidth.dup({ width: xPercent100 })
 
@@ -85,7 +90,6 @@ var rightWidth80 = rightWidth.dup({
   width: xPercent80,
   x: 'screenOriginX+screenSizeX-' + xPercent80,
 })
-// eslint-disable-next-line no-unused-vars
 var rightWidth90 = rightWidth.dup({
   width: xPercent90,
   x: 'screenOriginX+screenSizeX-' + xPercent90,
@@ -103,6 +107,7 @@ var sizeLeft = slate.operation('chain', {
     leftWidth60,
     leftWidth70,
     leftWidth80,
+    leftWidth90,
     leftWidth100,
   ],
 })
@@ -114,6 +119,7 @@ var sizeRight = slate.operation('chain', {
     rightWidth60,
     rightWidth70,
     rightWidth80,
+    rightWidth90,
     rightWidth100,
   ],
 })
@@ -308,6 +314,16 @@ function defaultWindowSize(win, screen) {
 }
 slate.bind('w:ctrl', defaultWindowSize)
 
+function fillScreen(win, screen) {
+  screen = screen || win && win.screen()
+  if (!screen) return
+  var rect = screen.rect()
+  const move = slate.operation('move', rect, screen)
+  win.doOperation(move)
+}
+slate.bind('w:ctrl,shift', fillScreen)
+
+
 function moveToOtherScreen(win) {
   var screen = getNextScreen(win.screen())
   defaultWindowSize(win, screen)
@@ -384,6 +400,16 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
           y: 'screenOriginY+screenSizeY-screenSizeY*7/10',
           screen,
         })
+      } else if (title.includes('Product Board')) {
+        const windowObject = slate.window();
+        log(Object.keys(windowObject))
+        log(Object.keys(win))
+
+        move = move.dup({
+          width: '1440',
+          height: 'screenSizeY*9/10',
+          screen,
+        })
       } else {
         move = move.dup({
           width: 'screenSizeX*5/10',
@@ -440,6 +466,14 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
 function defaultWindowSizeForSmallScreen({ move, win, screen }) {
   var appName = win.app().name()
   switch (appName) {
+    case 'Messages':
+      move = move.dup({
+        width: 'screenSizeX*5/10',
+        height: 'screenSizeY*8/10',
+        x: 'screenOriginX+screenSizeX-screenSizeX*5/10',
+        screen,
+      })
+      break
     case 'Music':
       move = move.dup({
         width: '400',
