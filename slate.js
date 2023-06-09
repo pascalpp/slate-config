@@ -318,6 +318,11 @@ function defaultWindowSize(win, screen) {
     move = defaultWindowSizeForSmallScreen({ move, win, screen })
   }
   win.doOperation(move)
+  if (win.app().name() === 'Code') {
+    setTimeout(() => {
+      win.doOperation(move)
+    }, 250)
+  }
 }
 slate.bind('w:ctrl', defaultWindowSize)
 
