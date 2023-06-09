@@ -8,7 +8,7 @@
     "install": "cd /Applications && curl http://www.ninjamonkeysoftware.com/slate/versions/slate-latest.tar.gz | tar -xz; cd -",
     "link": "ln -s ./slate.js ~/.slate.js",
     "edit": "code . && code slate.js",
-    "watch": "yarn chokidar slate.js --initial -c 'killall Slate || true && open /Applications/Slate.app'",
+    "watch": "yarn chokidar slate.js --initial -c 'killall Slate || true && open /Applications/Slate.app && open /Applications/Visual\\ Studio\\ Code.app'",
     "dev": "yarn edit && yarn watch"
   },
   "keywords": [],
