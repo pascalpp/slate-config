@@ -12,12 +12,12 @@ log('==== loaded ==========================================================')
 // Start log streaming
 // filter for message: slatelog
 
-var sizes = [];
+var sizes = []
 
 slate.eachScreen(screen => {
   const rect = screen.rect()
   sizes.push(rect.width)
-  sizes.sort((a,b) => b - a)
+  sizes.sort((a, b) => b - a)
 })
 
 // const relaunch = slate.operation('relaunch')
@@ -330,7 +330,7 @@ function getNextScreen(screen) {
 }
 
 function defaultWindowSize(win, screen) {
-  screen = screen || win && win.screen()
+  screen = screen || (win && win.screen())
   if (!screen) return
   const rect = screen.rect()
   let move = slate.operation('move', rect, screen)
@@ -340,23 +340,17 @@ function defaultWindowSize(win, screen) {
     move = defaultWindowSizeForSmallScreen({ move, win, screen })
   }
   win.doOperation(move)
-  if (win.app().name() === 'Code') {
-    setTimeout(() => {
-      win.doOperation(move)
-    }, 250)
-  }
 }
 slate.bind('w:ctrl', defaultWindowSize)
 
 function fillScreen(win, screen) {
-  screen = screen || win && win.screen()
+  screen = screen || (win && win.screen())
   if (!screen) return
   const rect = screen.rect()
   const move = slate.operation('move', rect, screen)
   win.doOperation(move)
 }
 slate.bind('w:ctrl,shift', fillScreen)
-
 
 function moveToOtherScreen(win) {
   const screen = getNextScreen(win.screen())
@@ -371,9 +365,10 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
   const title = win.title()
   switch (appName) {
     case 'Code':
+    case 'Code - Insiders':
       move = move.dup({
-        x: 'screenOriginX+screenSizeX-screenSizeX*7/10',
-        width: 'screenSizeX*7/10',
+        x: 'screenOriginX+screenSizeX-screenSizeX*8/10',
+        width: 'screenSizeX*8/10',
         screen,
       })
       break
@@ -419,7 +414,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
       })
       break
     case 'Music': {
-      const width = title === "MiniPlayer" ? '500' : 'screenSizeX*7/10'
+      const width = title === 'MiniPlayer' ? '500' : 'screenSizeX*7/10'
       move = move.dup({
         width,
         screen,
@@ -435,7 +430,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
           screen,
         })
       } else if (title.includes('Product Board')) {
-        const windowObject = slate.window();
+        const windowObject = slate.window()
         log(Object.keys(windowObject))
         log(Object.keys(win))
 
@@ -471,7 +466,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
       break
     case 'Terminal':
       move = move.dup({
-        width: 'screenSizeX*4/10',
+        width: 'screenSizeX*5/10',
         height: 'screenSizeY*5/10',
         y: 'screenOriginY+screenSizeY*5/10',
         screen,
