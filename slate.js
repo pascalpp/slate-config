@@ -373,8 +373,8 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
     case 'Code':
     case 'Code - Insiders':
       move = move.dup({
-        x: 'screenOriginX+screenSizeX-screenSizeX*8/10',
-        width: 'screenSizeX*8/10',
+        width: 'screenSizeX*7.5/10-100',
+        x: 'screenOriginX+screenSizeX-screenSizeX*7.5/10',
         screen,
       })
       break
@@ -404,6 +404,8 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
       }
       break
     case 'Mail':
+    case 'Gmail':
+    case 'Google Calendar':
       move = move.dup({
         width: 'screenSizeX*8/10-100',
         height: 'screenSizeY*9/10',
