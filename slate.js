@@ -5,6 +5,12 @@ yarn dev
 
 // keystrokes https://github.com/jigish/slate/wiki/Keystrokes#allowed-keys
 
+// Mac sluggish window resizing
+// https://github.com/microsoft/vscode/issues/169123
+// resolved by installing Insiders build https://code.visualstudio.com/insiders/
+// install code-insiders CLI
+// mv /usr/local/bin/code-insiders /usr/local/bin/code
+
 log('==== loaded ==========================================================')
 
 // to view logs:
