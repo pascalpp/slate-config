@@ -406,6 +406,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
     case 'Mail':
     case 'Gmail':
     case 'Google Calendar':
+    case 'NetNewsWire':
       move = move.dup({
         width: 'screenSizeX*8/10-100',
         height: 'screenSizeY*9/10',
@@ -455,12 +456,13 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
         })
       }
       break
+    case 'Google Chat':
     case 'Slack':
     case 'Discord':
       move = move.dup({
-        width: 'screenSizeX*5/10-100',
+        width: 'screenSizeX*6/10-100',
         height: 'screenSizeY*9/10',
-        x: 'screenOriginX+screenSizeX-screenSizeX*5/10',
+        x: 'screenOriginX+screenSizeX-screenSizeX*6/10',
         screen,
       })
       break
