@@ -1,7 +1,8 @@
 /*
-yarn link
-yarn dev
+npm run link
+npm run dev
 */
+
 
 // keystrokes https://github.com/jigish/slate/wiki/Keystrokes#allowed-keys
 
