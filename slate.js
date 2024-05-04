@@ -38,6 +38,7 @@ const xPercent60 = 'screenSizeX*6/10'
 const xPercent70 = 'screenSizeX*7/10'
 const xPercent75 = 'screenSizeX*7.5/10'
 const xPercent80 = 'screenSizeX*8/10'
+const xPercent85 = 'screenSizeX*85/100'
 const xPercent90 = 'screenSizeX*9/10'
 const xPercent95 = 'screenSizeX*95/100'
 const xPercent100 = 'screenSizeX'
@@ -72,6 +73,7 @@ const leftWidth60 = leftWidth.dup({ width: xPercent60 })
 const leftWidth70 = leftWidth.dup({ width: xPercent70 })
 const leftWidth75 = leftWidth.dup({ width: xPercent75 })
 const leftWidth80 = leftWidth.dup({ width: xPercent80 })
+const leftWidth85 = leftWidth.dup({ width: xPercent85 })
 const leftWidth90 = leftWidth.dup({ width: xPercent90 })
 const leftWidth95 = leftWidth.dup({ width: xPercent95 })
 const leftWidth100 = leftWidth.dup({ width: xPercent100 })
@@ -103,6 +105,10 @@ const rightWidth75 = rightWidth.dup({
 const rightWidth80 = rightWidth.dup({
   width: xPercent80,
   x: 'screenOriginX+screenSizeX-' + xPercent80,
+})
+const rightWidth85 = rightWidth.dup({
+  width: xPercent85,
+  x: 'screenOriginX+screenSizeX-' + xPercent85,
 })
 const rightWidth90 = rightWidth.dup({
   width: xPercent90,
@@ -266,7 +272,7 @@ const narrower = slate.operation('move', {
 })
 slate.bind('left:ctrl,alt', narrower)
 
-const onethird = function(win) {
+function onethird(win) {
   if (!win) return
   const w = win.rect()
   const screen = slate.screen()
@@ -282,7 +288,7 @@ const onethird = function(win) {
 }
 slate.bind('pad1:cmd', onethird)
 
-const half = function(win) {
+function half(win) {
   if (!win) return
   const w = win.rect()
   const screen = slate.screen()
@@ -298,7 +304,7 @@ const half = function(win) {
 }
 slate.bind('pad2:cmd', half)
 
-const twothirds = function(win) {
+function twothirds(win) {
   if (!win) return
   const w = win.rect()
   const screen = slate.screen()
@@ -314,7 +320,7 @@ const twothirds = function(win) {
 }
 slate.bind('pad3:cmd', twothirds)
 
-const threefourths = function(win) {
+function threefourths(win) {
   if (!win) return
   const w = win.rect()
   const screen = slate.screen()
@@ -329,6 +335,23 @@ const threefourths = function(win) {
   }
 }
 slate.bind('pad4:cmd', threefourths)
+
+function fourfifths(win) {
+  if (!win) return
+  const w = win.rect()
+  const screen = slate.screen()
+  const s = screen.rect()
+  const targetwidth = (s.width * 8.5) / 10
+  if (w.x === s.x && Math.abs(w.width - targetwidth) < 10) {
+    win.doOperation(rightWidth85)
+  } else if (w.x + w.width === s.width && Math.abs(w.width - targetwidth) > 10) {
+    win.doOperation(rightWidth85)
+  } else {
+    win.doOperation(leftWidth85)
+  }
+}
+slate.bind('pad5:cmd', fourfifths)
+
 
 function getNextScreen(screen) {
   let id = screen.id() + 1
