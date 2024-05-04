@@ -372,6 +372,7 @@ function defaultWindowSize(win, screen) {
   win.doOperation(move)
 }
 slate.bind('w:ctrl', defaultWindowSize)
+slate.bind('q:ctrl', defaultWindowSize)
 
 function fillScreen(win, screen) {
   screen = screen || (win && win.screen())
@@ -447,14 +448,15 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
       })
       break
     case 'Music': {
-      const width = title === 'MiniPlayer' ? '500' : 'screenSizeX*7/10'
+      const width = title === 'MiniPlayer' ? '600' : 'screenSizeX*7/10'
       move = move.dup({
         width,
+        height: 'screenSizeY',
         screen,
       })
       break
     }
-    case 'Safari':
+    case 'Safari': {
       if (title.includes('Web Inspector')) {
         move = move.dup({
           width: 'screenSizeX*5/10',
@@ -480,9 +482,12 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
         })
       }
       break
+    }
     case 'Google Chat':
     case 'Slack':
     case 'Discord':
+    case 'Coast':
+    case 'Shortcut':
       move = move.dup({
         width: 'screenSizeX*6/10-100',
         height: 'screenSizeY*9/10',
