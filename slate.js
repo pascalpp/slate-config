@@ -31,7 +31,6 @@ slate.eachScreen(screen => {
 // slate.bind('pad0:ctrl,alt,shift', relaunch)
 // slate.bind('0:ctrl,alt,shift', relaunch)
 
-const xPercent30 = 'screenSizeX*3/10'
 const xPercent40 = 'screenSizeX*4/10'
 const xPercent50 = 'screenSizeX*5/10'
 const xPercent60 = 'screenSizeX*6/10'
@@ -66,7 +65,6 @@ const rightWidth = slate.operation('move', {
   height: 'windowSizeY',
 })
 
-const leftWidth30 = leftWidth.dup({ width: xPercent30 })
 const leftWidth40 = leftWidth.dup({ width: xPercent40 })
 const leftWidth50 = leftWidth.dup({ width: xPercent50 })
 const leftWidth60 = leftWidth.dup({ width: xPercent60 })
@@ -78,10 +76,6 @@ const leftWidth90 = leftWidth.dup({ width: xPercent90 })
 const leftWidth95 = leftWidth.dup({ width: xPercent95 })
 const leftWidth100 = leftWidth.dup({ width: xPercent100 })
 
-const rightWidth30 = rightWidth.dup({
-  width: xPercent30,
-  x: 'screenOriginX+screenSizeX-' + xPercent30,
-})
 const rightWidth40 = rightWidth.dup({
   width: xPercent40,
   x: 'screenOriginX+screenSizeX-' + xPercent40,
@@ -125,7 +119,6 @@ const rightWidth100 = rightWidth.dup({
 
 const sizeLeft = slate.operation('chain', {
   operations: [
-    leftWidth30,
     leftWidth40,
     leftWidth50,
     leftWidth60,
@@ -138,7 +131,6 @@ const sizeLeft = slate.operation('chain', {
 })
 const sizeRight = slate.operation('chain', {
   operations: [
-    rightWidth30,
     rightWidth40,
     rightWidth50,
     rightWidth60,
