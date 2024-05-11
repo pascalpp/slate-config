@@ -375,12 +375,49 @@ function fillScreen(win, screen) {
 }
 slate.bind('w:ctrl,shift', fillScreen)
 
-function moveToOtherScreen(win) {
+function moveToNextScreen(win) {
   const screen = getNextScreen(win.screen())
   defaultWindowSize(win, screen)
 }
-slate.bind('2:ctrl,alt', moveToOtherScreen)
-slate.bind('pad2:ctrl,alt', moveToOtherScreen)
+slate.bind('2:ctrl,alt,shift', moveToNextScreen)
+slate.bind('pad2:ctrl,alt,shift', moveToNextScreen)
+
+function moveToScreen1(win) {
+  const screen = getScreenForSize(win, sizes[0]);
+  defaultWindowSize(win, screen)
+}
+slate.bind('1:ctrl,alt', moveToScreen1)
+slate.bind('pad1:ctrl,alt', moveToScreen1)
+
+function moveToScreen2(win) {
+  const screen = getScreenForSize(win, sizes[1]);
+  defaultWindowSize(win, screen)
+}
+slate.bind('2:ctrl,alt', moveToScreen2)
+slate.bind('pad2:ctrl,alt', moveToScreen2)
+
+function moveToScreen3(win) {
+  const screen = getScreenForSize(win, sizes[2]);
+  defaultWindowSize(win, screen)
+}
+slate.bind('3:ctrl,alt', moveToScreen3)
+slate.bind('pad3:ctrl,alt', moveToScreen3)
+
+function getScreenForSize(win, size) {
+  let screen;
+  // if already on this screen, move to other screen
+  if (size === win.screen().rect().width) {
+    // if already on largest screen, move to screen 2
+    size = size === sizes[0] ? sizes[1] : sizes[0];
+  }
+  slate.eachScreen(s => {
+    if (s.rect().width === size) {
+      screen = s
+    }
+  })
+  return screen
+}
+
 
 function defaultWindowSizeForBigScreen({ move, win, screen }) {
   if (!win) return
@@ -480,6 +517,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
     case 'Discord':
     case 'Coast':
     case 'Shortcut':
+    case 'Notion':
       move = move.dup({
         width: 'screenSizeX*6/10-100',
         height: 'screenSizeY*9/10',
