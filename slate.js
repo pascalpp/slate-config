@@ -372,6 +372,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
   switch (appName) {
     case 'Code':
     case 'Code - Insiders':
+    case 'Zed':
       move = move.dup({
         width: 'screenSizeX*7.5/10-100',
         x: 'screenOriginX+screenSizeX-screenSizeX*7.5/10',
@@ -404,7 +405,6 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
       }
       break
     case 'Mail':
-    case 'Gmail':
     case 'Google Calendar':
     case 'NetNewsWire':
       move = move.dup({
@@ -456,6 +456,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
         })
       }
       break
+    case 'Gmail':
     case 'Google Chat':
     case 'Slack':
     case 'Discord':
