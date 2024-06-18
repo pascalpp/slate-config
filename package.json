@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "cd /Applications && curl http://www.ninjamonkeysoftware.com/slate/versions/slate-latest.tar.gz | tar -xz; cd -",
-    "link": "ln -s ./slate.js ~/.slate.js",
+    "link": "rm ~/.slate.js; ln -s \"$(pwd)/slate.js\" ~/.slate.js",
     "edit": "code . && code slate.js",
     "watch": "npx chokidar slate.js --initial -c 'killall Slate || true && open /Applications/Slate.app && open /Applications/Visual\\ Studio\\ Code.app'",
     "dev": "npm run edit && npm run watch"
