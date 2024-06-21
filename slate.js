@@ -434,9 +434,9 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
       break
     case 'GitHub Desktop':
       move = move.dup({
-        width: 'screenSizeX*5/10-100',
-        height: 'screenSizeY*7/10',
-        x: 'screenOriginX+screenSizeX-screenSizeX*5/10',
+        width: 'screenSizeX*7/10-100',
+        height: 'screenSizeY*9/10',
+        x: 'screenOriginX+screenSizeX-screenSizeX*7/10',
         y: '80',
         screen,
       })
