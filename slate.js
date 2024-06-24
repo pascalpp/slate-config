@@ -19,7 +19,7 @@ log('==== loaded ==========================================================')
 // Start log streaming
 // filter for message: slatelog
 
-var sizes = []
+const sizes = []
 
 slate.eachScreen(screen => {
   const rect = screen.rect()
@@ -30,6 +30,8 @@ slate.eachScreen(screen => {
 // const relaunch = slate.operation('relaunch')
 // slate.bind('pad0:ctrl,alt,shift', relaunch)
 // slate.bind('0:ctrl,alt,shift', relaunch)
+
+const rightGutter = 140;
 
 const xPercent40 = 'screenSizeX*4/10'
 const xPercent50 = 'screenSizeX*5/10'
@@ -59,7 +61,7 @@ const leftWidth = slate.operation('move', {
   height: 'windowSizeY',
 })
 const rightWidth = slate.operation('move', {
-  x: 'screenOriginX+screenSizeX-100',
+  x: `screenOriginX+screenSizeX-${rightGutter}`,
   y: 'windowTopLeftY',
   width: 100,
   height: 'windowSizeY',
@@ -155,7 +157,7 @@ const topHeight = slate.operation('move', {
 })
 const bottomHeight = slate.operation('move', {
   x: 'windowTopLeftX',
-  y: 'screenOriginY+screenSizeY-100',
+  y: `screenOriginY+screenSizeY-${rightGutter}`,
   width: 'windowSizeX',
   height: 100,
 })
@@ -428,14 +430,14 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
     case 'Code - Insiders':
     case 'Zed':
       move = move.dup({
-        width: 'screenSizeX*7.5/10-100',
+        width: `screenSizeX*7.5/10-${rightGutter}`,
         x: 'screenOriginX+screenSizeX-screenSizeX*7.5/10',
         screen,
       })
       break
     case 'GitHub Desktop':
       move = move.dup({
-        width: 'screenSizeX*7/10-100',
+        width: `screenSizeX*7/10-${rightGutter}`,
         height: 'screenSizeY*9/10',
         x: 'screenOriginX+screenSizeX-screenSizeX*7/10',
         y: '80',
@@ -462,7 +464,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
     case 'Google Calendar':
     case 'NetNewsWire':
       move = move.dup({
-        width: 'screenSizeX*8/10-100',
+        width: `screenSizeX*8/10-${rightGutter}`,
         height: 'screenSizeY*9/10',
         x: 'screenOriginX+screenSizeX-screenSizeX*8/10',
         screen,
@@ -470,7 +472,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
       break
     case 'Messages':
       move = move.dup({
-        width: 'screenSizeX*4/10-100',
+        width: `screenSizeX*4/10-${rightGutter}`,
         height: 'screenSizeY*6/10',
         x: 'screenOriginX+screenSizeX-screenSizeX*4/10',
         screen,
@@ -520,7 +522,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
     case 'Shortcut':
     case 'Notion':
       move = move.dup({
-        width: 'screenSizeX*6/10-100',
+        width: `screenSizeX*6/10-${rightGutter}`,
         height: 'screenSizeY*9/10',
         x: 'screenOriginX+screenSizeX-screenSizeX*6/10',
         screen,
