@@ -428,7 +428,10 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
   switch (appName) {
     case 'Code':
     case 'Code - Insiders':
+    case 'Cursor':
     case 'Zed':
+    case 'Android Studio':
+    case 'Xcode':
       move = move.dup({
         width: `screenSizeX*7.5/10-${rightGutter}`,
         x: 'screenOriginX+screenSizeX-screenSizeX*7.5/10',
@@ -519,12 +522,19 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
     case 'Slack':
     case 'Discord':
     case 'Coast':
-    case 'Shortcut':
     case 'Notion':
       move = move.dup({
         width: `screenSizeX*6/10-${rightGutter}`,
         height: 'screenSizeY*9/10',
         x: 'screenOriginX+screenSizeX-screenSizeX*6/10',
+        screen,
+      })
+      break
+    case 'Shortcut':
+      move = move.dup({
+        width: `screenSizeX*8.9/10-${rightGutter}`,
+        height: 'screenSizeY*9/10',
+        x: 'screenOriginX+screenSizeX-screenSizeX*8.9/10',
         screen,
       })
       break
