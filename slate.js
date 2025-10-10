@@ -31,6 +31,8 @@ slate.eachScreen(screen => {
 // slate.bind('pad0:ctrl,alt,shift', relaunch)
 // slate.bind('0:ctrl,alt,shift', relaunch)
 
+const leftGutter = 20;
+
 const rightGutter = 140;
 
 const xPercent40 = 'screenSizeX*4/10'
@@ -447,6 +449,16 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
         screen,
       })
       break
+    case 'Arc':
+      if (title.includes('Developer Tools')) {
+        move = move.dup({
+          width: 'screenSizeX*5/10',
+          height: 'screenSizeY*7/10',
+          y: 'screenOriginY+screenSizeY-screenSizeY*7/10',
+          screen,
+        })
+      }
+      break;
     case 'Google Chrome':
       if (title.includes('DevTools')) {
         move = move.dup({
@@ -457,6 +469,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
         })
       } else {
         move = move.dup({
+          x: leftGutter,
           width: 'screenSizeX*5/10',
           height: 'screenSizeY*8/10',
           screen,
@@ -498,18 +511,9 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
           y: 'screenOriginY+screenSizeY-screenSizeY*7/10',
           screen,
         })
-      } else if (title.includes('Product Board')) {
-        const windowObject = slate.window()
-        log(Object.keys(windowObject))
-        log(Object.keys(win))
-
-        move = move.dup({
-          width: '1440',
-          height: 'screenSizeY*9/10',
-          screen,
-        })
       } else {
         move = move.dup({
+          x: leftGutter,
           width: 'screenSizeX*5/10',
           height: 'screenSizeY*8/10',
           screen,
@@ -532,9 +536,9 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
       break
     case 'Shortcut':
       move = move.dup({
-        width: `screenSizeX*8.9/10-${rightGutter}`,
-        height: 'screenSizeY*9/10',
-        x: 'screenOriginX+screenSizeX-screenSizeX*8.9/10',
+        width: `screenSizeX-${leftGutter}`,
+        height: 'screenSizeY*9.5/10',
+        x: `screenOriginX+${leftGutter}`,
         screen,
       })
       break
@@ -565,6 +569,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
     default:
       log('No default size for', name)
       move = move.dup({
+        x: leftGutter,
         width: 'screenSizeX*5/10',
         height: 'screenSizeY*8/10',
         screen,
@@ -612,7 +617,7 @@ function defaultWindowSizeForSmallScreen({ move, win, screen }) {
 }
 
 function isBigScreen(screen) {
-  return sizes.length > 1 && screen.rect().width === sizes[0]
+  return sizes.length > 1 && screen.rect().width === 2560
 }
 
 function log(...args) {
