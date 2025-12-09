@@ -3,7 +3,6 @@ npm run link
 npm run dev
 */
 
-
 // keystrokes https://github.com/jigish/slate/wiki/Keystrokes#allowed-keys
 
 // Mac sluggish window resizing
@@ -31,9 +30,9 @@ slate.eachScreen(screen => {
 // slate.bind('pad0:ctrl,alt,shift', relaunch)
 // slate.bind('0:ctrl,alt,shift', relaunch)
 
-const leftGutter = 20;
+const leftGutter = 20
 
-const rightGutter = 140;
+const rightGutter = 140
 
 const xPercent40 = 'screenSizeX*4/10'
 const xPercent50 = 'screenSizeX*5/10'
@@ -348,7 +347,6 @@ function fourfifths(win) {
 }
 slate.bind('pad5:cmd', fourfifths)
 
-
 function getNextScreen(screen) {
   let id = screen.id() + 1
   if (id >= slate.screenCount()) id = 0
@@ -387,32 +385,32 @@ slate.bind('2:ctrl,alt,shift', moveToNextScreen)
 slate.bind('pad2:ctrl,alt,shift', moveToNextScreen)
 
 function moveToScreen1(win) {
-  const screen = getScreenForSize(win, sizes[0]);
+  const screen = getScreenForSize(win, sizes[0])
   defaultWindowSize(win, screen)
 }
 slate.bind('1:ctrl,alt', moveToScreen1)
 slate.bind('pad1:ctrl,alt', moveToScreen1)
 
 function moveToScreen2(win) {
-  const screen = getScreenForSize(win, sizes[1]);
+  const screen = getScreenForSize(win, sizes[1])
   defaultWindowSize(win, screen)
 }
 slate.bind('2:ctrl,alt', moveToScreen2)
 slate.bind('pad2:ctrl,alt', moveToScreen2)
 
 function moveToScreen3(win) {
-  const screen = getScreenForSize(win, sizes[2]);
+  const screen = getScreenForSize(win, sizes[2])
   defaultWindowSize(win, screen)
 }
 slate.bind('3:ctrl,alt', moveToScreen3)
 slate.bind('pad3:ctrl,alt', moveToScreen3)
 
 function getScreenForSize(win, size) {
-  let screen;
+  let screen
   // if already on this screen, move to other screen
   if (size === win.screen().rect().width) {
     // if already on largest screen, move to screen 2
-    size = size === sizes[0] ? sizes[1] : sizes[0];
+    size = size === sizes[0] ? sizes[1] : sizes[0]
   }
   slate.eachScreen(s => {
     if (s.rect().width === size) {
@@ -422,7 +420,6 @@ function getScreenForSize(win, size) {
   return screen
 }
 
-
 function defaultWindowSizeForBigScreen({ move, win, screen }) {
   if (!win) return
   const appName = win.app().name()
@@ -431,6 +428,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
     case 'Code':
     case 'Code - Insiders':
     case 'Cursor':
+    case 'Kiro':
     case 'Zed':
     case 'Android Studio':
     case 'Xcode':
@@ -458,7 +456,7 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
           screen,
         })
       }
-      break;
+      break
     case 'Google Chrome':
       if (title.includes('DevTools')) {
         move = move.dup({
@@ -534,9 +532,10 @@ function defaultWindowSizeForBigScreen({ move, win, screen }) {
         screen,
       })
       break
+    case 'Graphite':
     case 'Shortcut':
       move = move.dup({
-        width: `screenSizeX-${leftGutter}`,
+        width: `screenSizeX-${leftGutter}-${rightGutter}`,
         height: 'screenSizeY*9.5/10',
         x: `screenOriginX+${leftGutter}`,
         screen,
